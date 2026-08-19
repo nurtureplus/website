@@ -92,7 +92,7 @@ export function Hero() {
           >
             <div className="relative aspect-[4/3.5] w-full overflow-hidden rounded-xl2 bg-white shadow-material dark:bg-white">
               <Image
-                src="/products/elixir.jpg"
+                src="/products/elixir.png"
                 alt="Elixir+NAD 500 mg — nicotinamide adenine dinucleotide injection by Nurture+"
                 fill
                 priority

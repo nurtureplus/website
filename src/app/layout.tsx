@@ -11,6 +11,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageTransition } from "@/components/page-transition";
+import { WhatsAppFloatingButton } from "@/components/ui/whatsapp-button";
 
 const siteUrl = "https://www.nurtureplus.in";
 
@@ -102,6 +103,7 @@ export default function RootLayout({
           <PageTransition>{children}</PageTransition>
         </main>
         <SiteFooter />
+        <WhatsAppFloatingButton />
       </body>
     </html>
   );

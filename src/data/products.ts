@@ -25,7 +25,7 @@ export const products: Product[] = [
     tagline: "Revitalize · Repair · Renew",
     category: "Cellular Wellness / NAD+",
     strength: "500 mg",
-    image: "/products/elixir.jpg",
+    image: "/products/elixir.png",
     brochure: "/brochures/elixir-plus.pdf",
     accent: "magenta",
     shortDescription:
@@ -56,7 +56,7 @@ export const products: Product[] = [
     line: "Nurture+",
     category: "Antioxidant / Glutathione",
     strength: "1200 mg",
-    image: "/products/gluta-ultra.jpg",
+    image: "/products/gluta-ultra.png",
     brochure: "/brochures/gluta-plus-ultra.pdf",
     accent: "rose",
     shortDescription:
@@ -92,7 +92,7 @@ export const products: Product[] = [
     line: "Nurture+",
     category: "Antioxidant / Glutathione + Vitamin C",
     strength: "600 mg + Vitamin C",
-    image: "/products/gluta-600.jpg",
+    image: "/products/gluta-600.png",
     brochure: "/brochures/gluta-plus.pdf",
     accent: "violet",
     shortDescription:
@@ -130,7 +130,7 @@ export const products: Product[] = [
     line: "Nurture+",
     category: "Essential Mineral / Zinc",
     strength: "10 mL",
-    image: "/products/zinco.jpg",
+    image: "/products/zinco.png",
     brochure: "/brochures/zinco-plus.pdf",
     accent: "sky",
     shortDescription:
