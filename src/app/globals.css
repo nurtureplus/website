@@ -1,0 +1,230 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Sticky translucent header needs headroom when jumping to an anchor. */
+    scroll-padding-top: 96px;
+  }
+  body {
+    @apply bg-white text-ink-900 font-body antialiased transition-colors duration-300 dark:bg-ink-950 dark:text-white;
+    font-feature-settings: "ss01" 1;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    @apply bg-emerald-200 text-ink-900;
+  }
+  /* Visible focus that survives on both translucent and solid surfaces. */
+  :focus-visible {
+    outline: 2px solid theme("colors.emerald.600");
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  /**
+   * Translucent materials. Content scrolls *under* these rather than being
+   * pushed aside by an opaque strip.
+   *
+   * Weight encodes hierarchy: `material-thin` for small floating chrome,
+   * `material-thick` for large structural surfaces (bigger surfaces should
+   * read as thicker — stronger blur, deeper shadow). Never stack two light
+   * translucent surfaces on each other; legibility collapses.
+   */
+  .material-thin {
+    background-color: rgb(255 255 255 / 0.72);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+  }
+  .dark .material-thin {
+    background-color: rgb(11 20 8 / 0.68);
+  }
+
+  .material-thick {
+    background-color: rgb(255 255 255 / 0.82);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    box-shadow: 0 8px 40px -12px rgb(16 30 13 / 0.18);
+    /* Bright top edge — light catching the leading face of the material. */
+    border-top: 1px solid rgb(255 255 255 / 0.45);
+  }
+  .dark .material-thick {
+    background-color: rgb(11 20 8 / 0.8);
+    border-top-color: rgb(255 255 255 / 0.1);
+  }
+
+  /**
+   * Vibrancy: over a blurred surface the background is unpredictable, so flat
+   * mid-gray text loses contrast. Bump weight and tracking slightly instead.
+   */
+  .vibrant-secondary {
+    @apply text-ink-600/90 dark:text-white/75;
+    font-weight: 500;
+    letter-spacing: 0.006em;
+  }
+
+  /**
+   * Scroll edge effect — a soft gradient where content meets floating chrome,
+   * instead of a hard 1px rule. Only rendered where the chrome actually
+   * overlaps content.
+   */
+  .scroll-edge::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    height: 28px;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgb(255 255 255 / 0.6), rgb(255 255 255 / 0));
+    /* The edge is always rendered and fades in, rather than being class-toggled
+       into existence at the scroll threshold — a 28px gradient appearing at full
+       strength mid-scroll is a visible pop. Opacity only, and short: this
+       crosses the threshold on every scroll, so it has to stay imperceptible. */
+    opacity: 0;
+    transition: opacity 200ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .scroll-edge[data-scrolled="true"]::after {
+    opacity: 1;
+  }
+  .dark .scroll-edge::after {
+    background: linear-gradient(to bottom, rgb(11 20 8 / 0.6), rgb(11 20 8 / 0));
+  }
+
+  /**
+   * Theme switch.
+   *
+   * `body` already eased its own colours, but every card, border and panel
+   * carried a bare `bg-white dark:bg-ink-900` pair with no transition — so the
+   * page faded while nineteen surfaces on top of it cut instantly. The class is
+   * applied only for the duration of the switch, so this never slows down
+   * ordinary hover and focus transitions.
+   */
+  .theme-switching,
+  .theme-switching *,
+  .theme-switching *::before,
+  .theme-switching *::after {
+    transition:
+      background-color 300ms cubic-bezier(0.23, 1, 0.32, 1),
+      border-color 300ms cubic-bezier(0.23, 1, 0.32, 1),
+      color 300ms cubic-bezier(0.23, 1, 0.32, 1),
+      fill 300ms cubic-bezier(0.23, 1, 0.32, 1) !important;
+    transition-delay: 0ms !important;
+  }
+
+  /* Calm surface — the brand-native equivalent of a restful tinted section. */
+  .surface-calm {
+    @apply bg-emerald-50/60 dark:bg-white/[0.03];
+  }
+  .surface-muted {
+    @apply bg-gray-50 dark:bg-white/[0.02];
+  }
+}
+
+@layer utilities {
+  .container-px {
+    @apply px-6 md:px-10;
+  }
+  .fade-up {
+    animation: fade-up 700ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-caption font-bold uppercase tracking-[0.14em] text-emerald-700;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply h-[3px] w-[3px] rounded-full bg-emerald-600;
+  }
+  .eyebrow-invert {
+    @apply text-emerald-400;
+  }
+  .eyebrow-invert::before {
+    @apply bg-emerald-400;
+  }
+  /* On a green band the emerald eyebrow disappears into its own background —
+     white is the only legible option there. */
+  .eyebrow-on-green {
+    @apply text-white;
+  }
+  .eyebrow-on-green::before {
+    @apply bg-white;
+  }
+  /* Section rhythm — one spacing scale, used everywhere. */
+  .section-y {
+    @apply py-20 md:py-28;
+  }
+  .section-y-lg {
+    @apply py-24 md:py-36;
+  }
+  /* Horizontal rail that hides its scrollbar but keeps keyboard scrolling. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/**
+ * Reduced motion means a gentler, non-vestibular equivalent — not the absence
+ * of feedback. Opacity and colour changes that aid comprehension are kept;
+ * travel, springs and parallax are dropped.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  /* Deliberate exception: an abrupt light↔dark flip is a brightness jump, which
+     is exactly what this preference exists to soften. A colour cross-fade
+     involves no travel, so it is the gentler option here, not the louder one. */
+  .theme-switching,
+  .theme-switching *,
+  .theme-switching *::before,
+  .theme-switching *::after {
+    transition-duration: 300ms !important;
+  }
+}
+
+/* Frostier, not see-through, when the user has asked for less transparency. */
+@media (prefers-reduced-transparency: reduce) {
+  .material-thin,
+  .material-thick {
+    background-color: rgb(255 255 255 / 0.98);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .dark .material-thin,
+  .dark .material-thick {
+    background-color: rgb(11 20 8 / 0.98);
+  }
+}
+
+/* Near-solid backgrounds with a defined border at high contrast. */
+@media (prefers-contrast: more) {
+  .material-thin,
+  .material-thick {
+    background-color: rgb(255 255 255);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: 1px solid theme("colors.ink.900");
+  }
+  .dark .material-thin,
+  .dark .material-thick {
+    background-color: rgb(11 20 8);
+    border-bottom-color: rgb(255 255 255);
+  }
+  .scroll-edge::after {
+    display: none;
+  }
+}
