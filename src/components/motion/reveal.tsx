@@ -7,7 +7,7 @@ export function Reveal({
   children,
   delay = 0,
   className,
-  y = 18,
+  y = 16,
 }: {
   children: ReactNode;
   delay?: number;
@@ -16,18 +16,18 @@ export function Reveal({
 }) {
   const reduce = useReducedMotion();
   const variants: Variants = {
-    hidden: { opacity: 0, y: reduce ? 0 : y },
+    hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : y },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, delay, ease: [0.23, 1, 0.32, 1] },
+      transition: { duration: 0.5, delay, ease: [0.23, 1, 0.32, 1] },
     },
   };
   return (
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, amount: 0.05 }}
       variants={variants}
       className={className}
     >
@@ -56,7 +56,7 @@ export function RevealGroup({
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, amount: 0.05 }}
       variants={container}
       className={className}
     >
@@ -65,11 +65,11 @@ export function RevealGroup({
   );
 }
 
-export function RevealItem({ children, className, y = 16 }: { children: ReactNode; className?: string; y?: number }) {
+export function RevealItem({ children, className, y = 14 }: { children: ReactNode; className?: string; y?: number }) {
   const reduce = useReducedMotion();
   const item: Variants = {
-    hidden: { opacity: 0, y: reduce ? 0 : y },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.23, 1, 0.32, 1] } },
+    hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : y },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.23, 1, 0.32, 1] } },
   };
   return (
     <motion.div variants={item} className={className}>
