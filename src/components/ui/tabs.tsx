@@ -29,7 +29,11 @@ export function Tabs({ items, className }: { items: TabItem[]; className?: strin
     if (!item) return;
     haptic("select");
     setActive(item.id);
-    tabRefs.current[index]?.focus();
+    const target = tabRefs.current[index];
+    if (target) {
+      target.focus();
+      target.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    }
   }
 
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
@@ -48,47 +52,49 @@ export function Tabs({ items, className }: { items: TabItem[]; className?: strin
 
   return (
     <div className={className}>
-      <div
-        role="tablist"
-        aria-label="Product details"
-        onKeyDown={onKeyDown}
-        className="flex flex-wrap gap-1.5 rounded-full border border-gray-200 bg-gray-50 p-1.5 dark:border-white/10 dark:bg-white/5"
-      >
-        {items.map((item, i) => {
-          const isActive = item.id === activeItem?.id;
-          return (
-            <motion.button
-              key={item.id}
-              ref={(el) => {
-                tabRefs.current[i] = el;
-              }}
-              type="button"
-              role="tab"
-              id={`${baseId}-tab-${item.id}`}
-              aria-selected={isActive}
-              aria-controls={`${baseId}-panel-${item.id}`}
-              tabIndex={isActive ? 0 : -1}
-              onClick={() => select(i)}
-              whileTap={reduce ? undefined : { scale: 0.96 }}
-              transition={springSnappy}
-              className={cn(
-                "relative rounded-full px-4 py-2 text-control-sm font-semibold transition-colors duration-160 ease-out-strong",
-                isActive
-                  ? "text-white dark:text-ink-950"
-                  : "text-ink-600 hover:text-ink-900 dark:text-white/60 dark:hover:text-white"
-              )}
-            >
-              {isActive && (
-                <motion.span
-                  layoutId={`${baseId}-pill`}
-                  transition={reduce ? { duration: 0 } : springDefault}
-                  className="absolute inset-0 rounded-full bg-emerald-600 dark:bg-emerald-500"
-                />
-              )}
-              <span className="relative">{item.label}</span>
-            </motion.button>
-          );
-        })}
+      <div className="no-scrollbar -mx-4 flex overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0 sm:pb-0">
+        <div
+          role="tablist"
+          aria-label="Product details"
+          onKeyDown={onKeyDown}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 p-1.5 dark:border-white/10 dark:bg-white/5"
+        >
+          {items.map((item, i) => {
+            const isActive = item.id === activeItem?.id;
+            return (
+              <motion.button
+                key={item.id}
+                ref={(el) => {
+                  tabRefs.current[i] = el;
+                }}
+                type="button"
+                role="tab"
+                id={`${baseId}-tab-${item.id}`}
+                aria-selected={isActive}
+                aria-controls={`${baseId}-panel-${item.id}`}
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => select(i)}
+                whileTap={reduce ? undefined : { scale: 0.96 }}
+                transition={springSnappy}
+                className={cn(
+                  "relative shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-control-sm font-semibold transition-colors duration-160 ease-out-strong",
+                  isActive
+                    ? "text-white dark:text-ink-950"
+                    : "text-ink-600 hover:text-ink-900 dark:text-white/60 dark:hover:text-white"
+                )}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId={`${baseId}-pill`}
+                    transition={reduce ? { duration: 0 } : springDefault}
+                    className="absolute inset-0 rounded-full bg-emerald-600 dark:bg-emerald-500"
+                  />
+                )}
+                <span className="relative">{item.label}</span>
+              </motion.button>
+            );
+          })}
+        </div>
       </div>
 
       <motion.div

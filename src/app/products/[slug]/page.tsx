@@ -212,7 +212,7 @@ export default async function ProductPage({
                 <a
                   href={product.brochure}
                   download
-                  className="inline-flex items-center gap-2 rounded-full border border-gray-300 px-6 py-3.5 text-body-sm font-semibold text-ink-800 transition-colors duration-160 ease-out-strong hover:border-ink-300 active:scale-[0.97] dark:border-white/15 dark:text-white dark:hover:border-white/35"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-6 py-3.5 text-control font-semibold text-ink-800 transition-[box-shadow,background-color,border-color,color] duration-200 ease-out-strong hover:border-ink-400 hover:bg-ink-50/60 active:scale-[0.97] dark:border-white/15 dark:bg-transparent dark:text-white dark:hover:border-white/35 dark:hover:bg-white/5"
                 >
                   <Download size={16} />
                   Download Brochure
