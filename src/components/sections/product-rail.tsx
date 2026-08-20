@@ -49,13 +49,13 @@ function RailCard({ product }: { product: (typeof products)[number] }) {
     <Link
       href={`/products/${product.slug}`}
       draggable={false}
-      className="group block h-full overflow-hidden rounded-xl2 border border-ink-100/70 bg-white shadow-card transition-[box-shadow,border-color] duration-300 ease-out-strong hover:border-emerald-200 hover:shadow-lifted dark:border-white/10 dark:bg-ink-900 dark:hover:border-emerald-400/30"
+      className="group flex h-full flex-col overflow-hidden rounded-xl2 border border-ink-100/70 bg-white shadow-card transition-[box-shadow,border-color] duration-300 ease-out-strong hover:border-emerald-200 hover:shadow-lifted dark:border-white/10 dark:bg-ink-900 dark:hover:border-emerald-400/30"
     >
       {/* The shots are all normalised to a square frame with matching margins,
           so `contain` shows each product whole at a consistent optical size —
           `cover` was cropping the wider cartons and made the range look like
           four unrelated photographs. */}
-      <div className="relative aspect-square w-full overflow-hidden bg-white dark:bg-white">
+      <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-white dark:bg-white">
         <Image
           src={product.image}
           alt={`${product.name} — ${product.category}`}
@@ -67,21 +67,23 @@ function RailCard({ product }: { product: (typeof products)[number] }) {
           className="select-none object-contain transition-transform duration-500 ease-out-strong group-hover:scale-[1.04]"
         />
       </div>
-      <div className="border-t border-ink-100/70 p-6 dark:border-white/10">
+      <div className="flex flex-1 flex-col border-t border-ink-100/70 p-6 dark:border-white/10">
         <p className="text-caption font-bold uppercase tracking-[0.1em] text-emerald-700 dark:text-emerald-300">
           {product.strength}
         </p>
-        <h3 className="mt-2 text-display-sm font-bold">{product.name}</h3>
+        <h3 className="mt-2 text-display-sm font-bold text-ink-950 dark:text-white">{product.name}</h3>
         <p className="mt-2 line-clamp-2 text-body-sm text-ink-600 dark:text-white/65">
           {product.shortDescription}
         </p>
-        <span className="mt-5 inline-flex items-center gap-1.5 text-body-sm font-semibold text-ink-800 dark:text-white/85">
-          View product
-          <ArrowUpRight
-            size={15}
-            className="transition-transform duration-300 ease-out-strong group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-          />
-        </span>
+        <div className="mt-auto pt-5">
+          <span className="inline-flex items-center gap-1.5 text-body-sm font-semibold text-emerald-700 transition-colors duration-160 group-hover:text-emerald-800 dark:text-emerald-400 dark:group-hover:text-emerald-300">
+            View product
+            <ArrowUpRight
+              size={15}
+              className="transition-transform duration-300 ease-out-strong group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </span>
+        </div>
       </div>
     </Link>
   );

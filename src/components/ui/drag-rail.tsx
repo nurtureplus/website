@@ -285,7 +285,7 @@ export function DragRail({
           className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2"
         >
           {children.map((child, i) => (
-            <div key={i} className={cn("shrink-0 snap-start", itemClassName)}>
+            <div key={i} className={cn("shrink-0 snap-start self-stretch", itemClassName)}>
               {child}
             </div>
           ))}
@@ -321,7 +321,7 @@ export function DragRail({
               ref={(el) => {
                 itemRefs.current[i] = el;
               }}
-              className={cn("shrink-0", itemClassName)}
+              className={cn("shrink-0 self-stretch", itemClassName)}
             >
               {child}
             </div>

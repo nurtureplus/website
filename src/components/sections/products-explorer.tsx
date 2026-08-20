@@ -117,6 +117,7 @@ export function ProductsExplorer({ initialCategory }: { initialCategory?: string
                 animate={{ opacity: 1, scale: 1 }}
                 exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97 }}
                 transition={reduce ? { duration: 0.15 } : springSnappy}
+                className="h-full"
               >
                 <ProductCard product={product} index={i} inGrid />
               </motion.div>

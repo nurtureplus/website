@@ -47,12 +47,13 @@ export function ProductCard({
       whileInView={inGrid ? undefined : { opacity: 1, y: 0 }}
       viewport={inGrid ? undefined : { once: true, margin: "-60px" }}
       transition={inGrid ? undefined : { duration: 0.55, delay: index * 0.06, ease: [0.23, 1, 0.32, 1] }}
+      className="h-full"
     >
       <Link
         href={`/products/${product.slug}`}
-        className={`group block overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-card ring-1 ring-transparent transition-[transform,box-shadow] duration-220 ease-out-strong hover:-translate-y-1 hover:shadow-lifted dark:border-white/10 dark:bg-ink-900 ${accent.ring}`}
+        className={`group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-card ring-1 ring-transparent transition-[transform,box-shadow] duration-220 ease-out-strong hover:-translate-y-1 hover:shadow-lifted dark:border-white/10 dark:bg-ink-900 ${accent.ring}`}
       >
-        <div className="relative aspect-[4/3.4] w-full overflow-hidden bg-white dark:bg-white">
+        <div className="relative aspect-[4/3.4] w-full shrink-0 overflow-hidden bg-white dark:bg-white">
           <Image
             src={product.image}
             alt={`${product.name} by Nurture+ — ${product.category}`}
@@ -61,19 +62,23 @@ export function ProductCard({
             className="object-contain p-3 transition-transform duration-500 ease-out-strong group-hover:scale-[1.045]"
           />
         </div>
-        <div className="p-6">
-          <span className={`inline-flex rounded-full px-3 py-1 text-caption font-bold uppercase tracking-[0.1em] ${accent.chip}`}>
-            {product.category}
-          </span>
+        <div className="flex flex-1 flex-col p-6">
+          <div className="flex min-h-[2.5rem] items-center">
+            <span className={`inline-flex rounded-full px-3 py-1 text-caption font-bold uppercase tracking-[0.1em] ${accent.chip}`}>
+              {product.category}
+            </span>
+          </div>
           <h3 className="mt-3 text-display-sm font-bold text-ink-950 dark:text-white">{product.name}</h3>
           <p className="mt-1 text-body-sm font-medium text-ink-500 dark:text-white/45">{product.strength}</p>
-          <p className="mt-3 text-body-sm text-ink-600 line-clamp-2 dark:text-white/55">
+          <p className="mt-3 line-clamp-2 text-body-sm text-ink-600 dark:text-white/55">
             {product.shortDescription}
           </p>
-          <span className="mt-4 inline-flex items-center gap-1.5 text-body-sm font-semibold text-ink-800 dark:text-white/80">
-            View product
-            <ArrowUpRight size={15} className="transition-transform duration-200 ease-out-strong group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </span>
+          <div className="mt-auto pt-5">
+            <span className="inline-flex items-center gap-1.5 text-body-sm font-semibold text-emerald-700 transition-colors duration-160 group-hover:text-emerald-800 dark:text-emerald-400 dark:group-hover:text-emerald-300">
+              View product
+              <ArrowUpRight size={15} className="transition-transform duration-200 ease-out-strong group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </span>
+          </div>
         </div>
       </Link>
     </motion.div>
